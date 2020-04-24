@@ -118,13 +118,12 @@ function game() {
         </View>
       </TouchableWithoutFeedback>
 
-      <View style={{ height: infoH, }} >
-        <View style={{ flexDirection: "row-reverse", alignItems: "center" }}>
+      <View style={{ height: infoH, width: "90%", marginLeft: "auto", marginRight: "auto", marginTop: "auto", marginBottom: "auto" }} >
+        <View style={{ flexDirection: "row-reverse", justifyContent: "space-between" }}>
           <Text style={styles.f14}>نوبت {turn}</Text>
           <Text style={styles.f14}>تعداد گلوله {bullets}</Text>
         </View>
-        <View style={{ flexDirection: "row-reverse" }}>
-          <Text style={styles.f14}>نوبت {turn}</Text>
+        <View style={{ flexDirection: "row-reverse", justifyContent: "space-between" }}>
           <TouchableOpacity style={styles.btn1} onPress={() => attack()}><Text style={styles.attackbtn}>آتش</Text></TouchableOpacity>
           <TouchableOpacity style={styles.btn2} onPress={() => refreshGame()}><Text style={styles.restartbtn}>شروع مجدد</Text></TouchableOpacity>
           <TouchableOpacity style={styles.btn3}><Text style={styles.backbtn}>بازگشت</Text></TouchableOpacity>
@@ -156,22 +155,19 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     borderColor: "orange",
     borderWidth: 1.5,
-    paddingTop: 2,
-    paddingBottom: 2,
+    paddingTop: 7,
+    paddingBottom: 7,
     paddingRight: 10,
     paddingLeft: 10,
-    marginLeft: 10,
   },
   btn2: {
     borderRadius: 20,
     borderColor: "#32a852",
     borderWidth: 1.5,
-
     paddingTop: 7,
     paddingBottom: 7,
     paddingRight: 10,
     paddingLeft: 10,
-    marginLeft: 10,
   },
   btn3: {
     borderRadius: 20,
@@ -182,7 +178,6 @@ const styles = StyleSheet.create({
     paddingBottom: 7,
     paddingRight: 10,
     paddingLeft: 10,
-    marginLeft: 10,
   },
   attackbtn: {
     fontFamily: "IRANSansWeb(FaNum)_Bold",
