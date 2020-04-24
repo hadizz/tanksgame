@@ -1,5 +1,5 @@
 # Tanks Game
 
 <p align="center">
-  <img src="./preview.png">
+  <img src="./tanks.png">
 </p>
