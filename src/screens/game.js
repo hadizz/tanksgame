@@ -27,7 +27,7 @@ function game() {
   const [infoH, setInfoH] = useState(0);
 
   const [turn, setTurn] = useState(1);
-  const [bullets, setBullets] = useState(10);
+  const [bombs, setBombs] = useState(10);
 
   const [targets, setTargets] = useState([[50, 50]]);
 
@@ -45,9 +45,9 @@ function game() {
 
   useEffect(() => {
     console.log('turn changed : ', turn);
-    console.log('bullets changed : ', bullets);
+    console.log('bullets changed : ', bombs);
     console.log('targets changed : ', targets);
-  }, [targets, bullets, turn]);
+  }, [targets, bombs, turn]);
 
   useEffect(() => {
     console.log('do i hit the tank?');
@@ -82,7 +82,7 @@ function game() {
 
     setBombAtUp([y, x]);
 
-    setBullets(bullets - 1);
+    setBombs(bombs - 1);
 
     if (turn == 1) {
       setTurn(2);
@@ -96,7 +96,7 @@ function game() {
     setX(0);
     setY(0);
     setTurn(1);
-    setBullets(10);
+    setBombs(10);
     setTargets(randomTargets());
   }
 
@@ -109,7 +109,7 @@ function game() {
             <Image key={index} style={{ position: "absolute", top: target[1] - 15, left: target[0] - 15, width: 30, height: 30 }}
               source={require('../assets/img/tank.png')} />
           ))}
-          {(bullets !== 10) &&
+          {(bombs !== 10) &&
             <Image
               style={{ top: landH - bombAtUp[0] - 15, left: bombAtUp[1] - 15, width: 30, height: 30 }}
               source={require('../assets/img/bomb.png')}
@@ -121,7 +121,7 @@ function game() {
       <View style={{ height: infoH, width: "90%", marginLeft: "auto", marginRight: "auto", marginTop: "auto", marginBottom: "auto" }} >
         <View style={{ flexDirection: "row-reverse", justifyContent: "space-between" }}>
           <Text style={styles.f14}>نوبت {turn}</Text>
-          <Text style={styles.f14}>تعداد گلوله {bullets}</Text>
+          <Text style={styles.f14}>تعداد بمب {bombs}</Text>
         </View>
         <View style={{ flexDirection: "row-reverse", justifyContent: "space-between" }}>
           <TouchableOpacity style={styles.btn1} onPress={() => attack()}><Text style={styles.attackbtn}>آتش</Text></TouchableOpacity>
