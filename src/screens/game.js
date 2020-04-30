@@ -11,7 +11,8 @@ import {
   Dimensions,
   StyleSheet,
   Image,
-  StatusBar
+  StatusBar,
+  Switch
 } from 'react-native';
 
 const Game = () => {
@@ -34,6 +35,9 @@ const Game = () => {
   const [targets, setTargets] = useState(randomTargets());
 
   const [modalVisible, setModalVisible] = useState(false);
+
+  const [isTwoPlayer, setIsTwoPlayer] = useState(false);
+  const toggleSwitch = () => setIsTwoPlayer(!isTwoPlayer);
 
   function randomTargets() {
     let arr = [];
@@ -105,7 +109,9 @@ const Game = () => {
       >
         <View style={styles.modalcontainer}>
           <View style={styles.modalinnercontainer}>
-            <Text style={styles.f14}>تنظیمات بازی</Text>
+            <Text style={{ fontFamily: "IRANSansWeb(FaNum)_Medium", fontSize: 18, marginBottom: 20 }}>تنظیمات بازی</Text>
+            <Text style={{ fontFamily: "IRANSansWeb(FaNum)_Medium", fontSize: 14, marginBottom: 10 }}>بازی {isTwoPlayer ? "دو" : "یک"} نفره</Text>
+            <Switch style={{ marginBottom: 20 }} onValueChange={toggleSwitch} value={isTwoPlayer} />
             <TouchableOpacity style={styles.btn5} onPress={() => setModalVisible(!modalVisible)}><Text style={styles.closemodalbtn}>بستن</Text></TouchableOpacity>
           </View>
         </View>
@@ -127,8 +133,14 @@ const Game = () => {
 
       <View style={{ borderColor: "black", height: infoH, width: "95%", marginLeft: "auto", marginRight: "auto", marginTop: "auto", marginBottom: "auto" }} >
         <View style={{ marginBottom: 4, flexDirection: "row-reverse", justifyContent: "space-between" }}>
-          <Text style={styles.f14}>نوبت {turn}</Text>
-          <Text style={styles.f14}>تعداد بمب {bombs}</Text>
+          {(isTwoPlayer ?
+            <>
+              <Text style={styles.f12}>نوبت {turn}</Text>
+              <Text style={styles.f12}>تعداد بمب {bombs}</Text>
+            </>
+            :
+            <Text style={styles.f12}>تعداد بمب {bombs}</Text>
+          )}
         </View>
         <View style={{ flexDirection: "row-reverse", justifyContent: "space-between" }}>
           <TouchableOpacity style={styles.btn1} onPress={() => attack()}><Text style={styles.attackbtn}>آتش</Text></TouchableOpacity>
@@ -152,9 +164,8 @@ const Game = () => {
 
 
 const styles = StyleSheet.create({
-  modal: {
-
-
+  iransans: {
+    fontFamily: "IRANSansWeb(FaNum)_Medium",
   },
   modalcontainer: {
     flex: 1,
@@ -163,6 +174,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.5)',
   },
   modalinnercontainer: {
+    width: 200,
     backgroundColor: "white",
     padding: 20,
     alignItems: "center",
@@ -176,9 +188,13 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 10
   },
-  f14: {
+  f12: {
     fontFamily: "IRANSansWeb(FaNum)_Medium",
     fontSize: 12,
+  },
+  f14: {
+    fontFamily: "IRANSansWeb(FaNum)_Medium",
+    fontSize: 14,
   },
   btn1: {
     borderRadius: 20,
@@ -247,7 +263,7 @@ const styles = StyleSheet.create({
   closemodalbtn: {
     fontFamily: "IRANSansWeb(FaNum)_Bold",
     color: "white",
-    fontSize: 12,
+    fontSize: 14,
   },
 });
 
