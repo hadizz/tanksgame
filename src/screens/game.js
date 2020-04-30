@@ -13,7 +13,7 @@ import {
   StatusBar
 } from 'react-native';
 
-function game() {
+const Game = () => {
 
   let land = 5;
   let info = 1;
@@ -22,21 +22,39 @@ function game() {
   const [y, setY] = useState(0);
   const [bombAtUp, setBombAtUp] = useState([0, 0]);
 
-  const [windowHeight, setWindowHeight] = useState(Dimensions.get('window').height);
+  const [windowHeight, setWindowHeight] = useState(Dimensions.get('window').height - StatusBar.currentHeight);
   const [landH, setLandH] = useState(0);
   const [infoH, setInfoH] = useState(0);
 
   const [turn, setTurn] = useState(1);
   const [bombs, setBombs] = useState(10);
 
-  const [targets, setTargets] = useState([[50, 50]]);
+  const [targets, setTargets] = useState([[100, 100]]);
 
   useEffect(() => {
     console.log('[] called');
 
-    setWindowHeight(Dimensions.get('window').height - StatusBar.currentHeight);
-    setLandH(windowHeight / 11 * land);
-    setInfoH(windowHeight / 11 * info);
+    const statusbarHeight = StatusBar.currentHeight;
+    const heightOfScreen = Dimensions.get('window').height;
+
+    console.log("heightOfScreen : ", heightOfScreen);
+    console.log("statusbarHeight : ", statusbarHeight);
+
+    const newHeightWithoutStatusbar = heightOfScreen - statusbarHeight;
+    console.log("newHeightWithoutStatusbar : ", newHeightWithoutStatusbar);
+
+    // setWindowHeight(newHeightWithoutStatusbar);
+
+    console.log("windowHeight : ", windowHeight);
+
+    const landHeight = windowHeight / 11 * land;
+    const infoHeight = windowHeight / 11 * info;
+
+    console.log("landHeight : ", landHeight);
+    console.log("infoHeight : ", infoHeight);
+
+    setLandH(landHeight);
+    setInfoH(infoHeight);
 
     console.log("random :", Math.floor(Math.random() * 301))
     console.log(targets);
@@ -45,7 +63,7 @@ function game() {
 
   useEffect(() => {
     console.log('turn changed : ', turn);
-    console.log('bullets changed : ', bombs);
+    console.log('bombs changed : ', bombs);
     console.log('targets changed : ', targets);
   }, [targets, bombs, turn]);
 
@@ -149,14 +167,14 @@ const styles = StyleSheet.create({
   },
   f14: {
     fontFamily: "IRANSansWeb(FaNum)_Medium",
-    fontSize: 14,
+    fontSize: 12,
   },
   btn1: {
     borderRadius: 20,
     borderColor: "orange",
     borderWidth: 1.5,
-    paddingTop: 7,
-    paddingBottom: 7,
+    paddingTop: 7, // 7
+    paddingBottom: 7, // 7
     paddingRight: 10,
     paddingLeft: 10,
   },
@@ -182,19 +200,19 @@ const styles = StyleSheet.create({
   attackbtn: {
     fontFamily: "IRANSansWeb(FaNum)_Bold",
     color: "orange",
-    fontSize: 14,
+    fontSize: 12,
 
   },
   restartbtn: {
     fontFamily: "IRANSansWeb(FaNum)_Bold",
     color: "#32a852",
-    fontSize: 14,
+    fontSize: 12,
   },
   backbtn: {
     fontFamily: "IRANSansWeb(FaNum)_Bold",
     color: "red",
-    fontSize: 14,
+    fontSize: 12,
   },
 });
 
-export default game;
+export default Game;
