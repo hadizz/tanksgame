@@ -103,9 +103,11 @@ const Game = () => {
         visible={modalVisible}
         transparent={true}
       >
-        <View style={styles.modalView}>
-          <Text style={styles.f14}>تنظیمات بازی</Text>
-          <TouchableOpacity style={styles.btn5} onPress={() => setModalVisible(!modalVisible)}><Text style={styles.closemodalbtn}>بستن</Text></TouchableOpacity>
+        <View style={styles.modalcontainer}>
+          <View style={styles.modalinnercontainer}>
+            <Text style={styles.f14}>تنظیمات بازی</Text>
+            <TouchableOpacity style={styles.btn5} onPress={() => setModalVisible(!modalVisible)}><Text style={styles.closemodalbtn}>بستن</Text></TouchableOpacity>
+          </View>
         </View>
       </Modal>
       <TouchableWithoutFeedback>
@@ -154,18 +156,17 @@ const styles = StyleSheet.create({
 
 
   },
-  modalView: {
-    // flex: 1,
-    // justifyContent: "center",
-    // alignItems: "center",
-    marginTop: "auto",
-    marginBottom: "auto",
-    marginRight: "auto",
-    marginLeft: "auto",
+  modalcontainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(0,0,0,0.5)',
+  },
+  modalinnercontainer: {
     backgroundColor: "white",
-    borderRadius: 20,
     padding: 20,
     alignItems: "center",
+    borderRadius: 20,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -174,9 +175,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 10
-  },
-  infoSection: {
-
   },
   f14: {
     fontFamily: "IRANSansWeb(FaNum)_Medium",
