@@ -7,6 +7,7 @@ import {
   TouchableWithoutFeedback,
   View,
   Text,
+  Modal,
   Dimensions,
   StyleSheet,
   Image,
@@ -31,6 +32,8 @@ const Game = () => {
   const [bombs, setBombs] = useState(10);
 
   const [targets, setTargets] = useState(randomTargets());
+
+  const [modalVisible, setModalVisible] = useState(false);
 
   function randomTargets() {
     let arr = [];
@@ -93,8 +96,18 @@ const Game = () => {
   }
 
   return (
-    <View style={{ fontFamily: "IRANSansWeb(FaNum)_Bold" }}>
-
+    <View>
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={modalVisible}
+        transparent={true}
+      >
+        <View style={styles.modalView}>
+          <Text style={styles.f14}>تنظیمات بازی</Text>
+          <TouchableOpacity style={styles.btn5} onPress={() => setModalVisible(!modalVisible)}><Text style={styles.closemodalbtn}>بستن</Text></TouchableOpacity>
+        </View>
+      </Modal>
       <TouchableWithoutFeedback>
         <View style={{ height: landH, backgroundColor: '#fff4cc', }}>
           {targets && targets.map((target, index) => (
@@ -110,17 +123,16 @@ const Game = () => {
         </View>
       </TouchableWithoutFeedback>
 
-      <View style={{ borderWidth: 1, marginRight: 1, marginLeft: 1, marginTop: 1, marginBottom: 1, borderRadius: 5 }}>
-        <View style={{ borderColor: "black", height: infoH, width: "95%", marginLeft: "auto", marginRight: "auto", marginTop: "auto", marginBottom: "auto" }} >
-          <View style={{ marginBottom: 4, flexDirection: "row-reverse", justifyContent: "space-between" }}>
-            <Text style={styles.f14}>نوبت {turn}</Text>
-            <Text style={styles.f14}>تعداد بمب {bombs}</Text>
-          </View>
-          <View style={{ flexDirection: "row-reverse", justifyContent: "space-between" }}>
-            <TouchableOpacity style={styles.btn1} onPress={() => attack()}><Text style={styles.attackbtn}>آتش</Text></TouchableOpacity>
-            <TouchableOpacity style={styles.btn2} onPress={() => refreshGame()}><Text style={styles.restartbtn}>شروع مجدد</Text></TouchableOpacity>
-            <TouchableOpacity style={styles.btn3}><Text style={styles.backbtn}>بازگشت</Text></TouchableOpacity>
-          </View>
+      <View style={{ borderColor: "black", height: infoH, width: "95%", marginLeft: "auto", marginRight: "auto", marginTop: "auto", marginBottom: "auto" }} >
+        <View style={{ marginBottom: 4, flexDirection: "row-reverse", justifyContent: "space-between" }}>
+          <Text style={styles.f14}>نوبت {turn}</Text>
+          <Text style={styles.f14}>تعداد بمب {bombs}</Text>
+        </View>
+        <View style={{ flexDirection: "row-reverse", justifyContent: "space-between" }}>
+          <TouchableOpacity style={styles.btn1} onPress={() => attack()}><Text style={styles.attackbtn}>آتش</Text></TouchableOpacity>
+          <TouchableOpacity style={styles.btn2} onPress={() => refreshGame()}><Text style={styles.restartbtn}>شروع مجدد</Text></TouchableOpacity>
+          <TouchableOpacity style={styles.btn3} onPress={() => setModalVisible(true)}><Text style={styles.settingsbtn}>تنظیمات</Text></TouchableOpacity>
+          <TouchableOpacity style={styles.btn4}><Text style={styles.backbtn}>بازگشت</Text></TouchableOpacity>
         </View>
       </View>
 
@@ -132,12 +144,37 @@ const Game = () => {
         </View>
       </TouchableWithoutFeedback>
 
-    </View>
+    </View >
   );
 }
 
 
 const styles = StyleSheet.create({
+  modal: {
+
+
+  },
+  modalView: {
+    // flex: 1,
+    // justifyContent: "center",
+    // alignItems: "center",
+    marginTop: "auto",
+    marginBottom: "auto",
+    marginRight: "auto",
+    marginLeft: "auto",
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 20,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 10
+  },
   infoSection: {
 
   },
@@ -165,8 +202,25 @@ const styles = StyleSheet.create({
   },
   btn3: {
     borderRadius: 20,
+    borderColor: "blue",
+    borderWidth: 1.5,
+    paddingTop: 7,
+    paddingBottom: 7,
+    paddingRight: 10,
+    paddingLeft: 10,
+  },
+  btn4: {
+    borderRadius: 20,
     borderColor: "red",
     borderWidth: 1.5,
+    paddingTop: 7,
+    paddingBottom: 7,
+    paddingRight: 10,
+    paddingLeft: 10,
+  },
+  btn5: {
+    borderRadius: 20,
+    backgroundColor: "red",
     paddingTop: 7,
     paddingBottom: 7,
     paddingRight: 10,
@@ -185,6 +239,16 @@ const styles = StyleSheet.create({
   backbtn: {
     fontFamily: "IRANSansWeb(FaNum)_Bold",
     color: "red",
+    fontSize: 12,
+  },
+  settingsbtn: {
+    fontFamily: "IRANSansWeb(FaNum)_Bold",
+    color: "blue",
+    fontSize: 12,
+  },
+  closemodalbtn: {
+    fontFamily: "IRANSansWeb(FaNum)_Bold",
+    color: "white",
     fontSize: 12,
   },
 });
