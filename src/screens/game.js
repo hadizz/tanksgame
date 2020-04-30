@@ -51,7 +51,6 @@ const Game = () => {
 
   useEffect(() => {
     console.log('\n\n\t\t---------------------------\n\n\t\t\t\t\t [] called');
-    // setTargets(randomTargets());
     console.log("window Height : ", windowHeight);
     console.log("window width : ", windowWidth);
 
@@ -62,12 +61,6 @@ const Game = () => {
     console.log('bombs changed : ', bombs);
     console.log('targets changed : ', targets);
   }, [targets, bombs, turn]);
-
-  useEffect(() => {
-    console.log('do i hit the tank?');
-  });
-
-
 
   handlePressDown = (event) => {
     console.log('x ', x);
@@ -131,12 +124,10 @@ const Game = () => {
             <Image key={index} style={{ position: "absolute", top: target[1] - 25 / 2, left: target[0] - 25 / 2, width: 25, height: 25 }}
               source={require('../assets/img/tank.png')} />
           ))}
-          {(bombs !== 10) &&
-            <Image
-              style={{ top: landH - bombAtUp[0] - 25 / 2, left: bombAtUp[1] - 25 / 2, width: 25, height: 25 }}
-              source={require('../assets/img/bomb.png')}
-            />
-          }
+          <Image
+            style={{ top: landH - bombAtUp[0] - 25 / 2, left: bombAtUp[1] - 25 / 2, width: 25, height: 25 }}
+            source={require('../assets/img/bomb.png')}
+          />
         </View>
       </TouchableWithoutFeedback>
 
