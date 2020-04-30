@@ -23,41 +23,28 @@ const Game = () => {
   const [bombAtUp, setBombAtUp] = useState([0, 0]);
 
   const [windowHeight, setWindowHeight] = useState(Dimensions.get('window').height - StatusBar.currentHeight);
-  const [landH, setLandH] = useState(0);
-  const [infoH, setInfoH] = useState(0);
+  const [windowWidth, setWindowWidth] = useState(Dimensions.get('window').width);
+  const [landH, setLandH] = useState(windowHeight / 11 * land);
+  const [infoH, setInfoH] = useState(windowHeight / 11 * info);
 
   const [turn, setTurn] = useState(1);
   const [bombs, setBombs] = useState(10);
 
-  const [targets, setTargets] = useState([[100, 100]]);
+  const [targets, setTargets] = useState(null);
+
+  const randomTargets = () => {
+    let arr = [];
+    for (let i = 1; i <= 5; i++) {
+      arr.push([Math.floor(Math.random() * (windowWidth - 50)) + 20, Math.floor(Math.random() * (landH - 50)) + 20])
+    }
+    return arr;
+  }
 
   useEffect(() => {
-    console.log('[] called');
-
-    const statusbarHeight = StatusBar.currentHeight;
-    const heightOfScreen = Dimensions.get('window').height;
-
-    console.log("heightOfScreen : ", heightOfScreen);
-    console.log("statusbarHeight : ", statusbarHeight);
-
-    const newHeightWithoutStatusbar = heightOfScreen - statusbarHeight;
-    console.log("newHeightWithoutStatusbar : ", newHeightWithoutStatusbar);
-
-    // setWindowHeight(newHeightWithoutStatusbar);
-
-    console.log("windowHeight : ", windowHeight);
-
-    const landHeight = windowHeight / 11 * land;
-    const infoHeight = windowHeight / 11 * info;
-
-    console.log("landHeight : ", landHeight);
-    console.log("infoHeight : ", infoHeight);
-
-    setLandH(landHeight);
-    setInfoH(infoHeight);
-
-    console.log("random :", Math.floor(Math.random() * 301))
-    console.log(targets);
+    console.log('\n\n\t\t---------------------------\n\n\t\t\t\t\t [] called');
+    setTargets(randomTargets());
+    console.log("window Height : ", windowHeight);
+    console.log("window width : ", windowWidth);
 
   }, []);
 
@@ -69,22 +56,9 @@ const Game = () => {
 
   useEffect(() => {
     console.log('do i hit the tank?');
-    if (x > 50 && x < 50 + 15 && y > 50 && y < 50 + 15) {
-      console.log("yes");
-
-    }
-    else {
-      console.log("no")
-    }
   });
 
-  function randomTargets() {
-    let arr = [];
-    for (let i = 1; i <= 5; i++) {
-      arr.push([Math.floor(Math.random() * Dimensions.get('window').width + 1), Math.floor(Math.random() * landH - 20)])
-    }
-    return arr;
-  }
+
 
   handlePressDown = (event) => {
     console.log('x ', x);
@@ -95,7 +69,7 @@ const Game = () => {
 
   };
 
-  function attack() {
+  const attack = () => {
     console.log('Called With x:', x, ' y:', y);
 
     setBombAtUp([y, x]);
@@ -109,7 +83,7 @@ const Game = () => {
     }
   }
 
-  function refreshGame() {
+  const refreshGame = () => {
     setBombAtUp([0, 0]);
     setX(0);
     setY(0);
@@ -123,8 +97,8 @@ const Game = () => {
 
       <TouchableWithoutFeedback>
         <View style={{ height: landH, backgroundColor: '#a8ffc0', }}>
-          {targets.map((target, index) => (
-            <Image key={index} style={{ position: "absolute", top: target[1] - 15, left: target[0] - 15, width: 30, height: 30 }}
+          {targets && targets.map((target, index) => (
+            <Image key={index} style={{ position: "absolute", top: target[1], left: target[0], width: 30, height: 30 }}
               source={require('../assets/img/tank.png')} />
           ))}
           {(bombs !== 10) &&
@@ -137,7 +111,7 @@ const Game = () => {
       </TouchableWithoutFeedback>
 
       <View style={{ height: infoH, width: "90%", marginLeft: "auto", marginRight: "auto", marginTop: "auto", marginBottom: "auto" }} >
-        <View style={{ flexDirection: "row-reverse", justifyContent: "space-between" }}>
+        <View style={{ marginTop: 4, marginBottom: 4, flexDirection: "row-reverse", justifyContent: "space-between" }}>
           <Text style={styles.f14}>نوبت {turn}</Text>
           <Text style={styles.f14}>تعداد بمب {bombs}</Text>
         </View>
@@ -201,7 +175,6 @@ const styles = StyleSheet.create({
     fontFamily: "IRANSansWeb(FaNum)_Bold",
     color: "orange",
     fontSize: 12,
-
   },
   restartbtn: {
     fontFamily: "IRANSansWeb(FaNum)_Bold",
