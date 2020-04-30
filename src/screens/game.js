@@ -30,9 +30,9 @@ const Game = () => {
   const [turn, setTurn] = useState(1);
   const [bombs, setBombs] = useState(10);
 
-  const [targets, setTargets] = useState(null);
+  const [targets, setTargets] = useState(randomTargets());
 
-  const randomTargets = () => {
+  function randomTargets() {
     let arr = [];
     for (let i = 1; i <= 5; i++) {
       arr.push([Math.floor(Math.random() * (windowWidth - 50)) + 20, Math.floor(Math.random() * (landH - 50)) + 20])
@@ -42,7 +42,7 @@ const Game = () => {
 
   useEffect(() => {
     console.log('\n\n\t\t---------------------------\n\n\t\t\t\t\t [] called');
-    setTargets(randomTargets());
+    // setTargets(randomTargets());
     console.log("window Height : ", windowHeight);
     console.log("window width : ", windowWidth);
 
@@ -96,36 +96,38 @@ const Game = () => {
     <View style={{ fontFamily: "IRANSansWeb(FaNum)_Bold" }}>
 
       <TouchableWithoutFeedback>
-        <View style={{ height: landH, backgroundColor: '#a8ffc0', }}>
+        <View style={{ height: landH, backgroundColor: '#fff4cc', }}>
           {targets && targets.map((target, index) => (
-            <Image key={index} style={{ position: "absolute", top: target[1], left: target[0], width: 30, height: 30 }}
+            <Image key={index} style={{ position: "absolute", top: target[1] - 25 / 2, left: target[0] - 25 / 2, width: 25, height: 25 }}
               source={require('../assets/img/tank.png')} />
           ))}
           {(bombs !== 10) &&
             <Image
-              style={{ top: landH - bombAtUp[0] - 15, left: bombAtUp[1] - 15, width: 30, height: 30 }}
+              style={{ top: landH - bombAtUp[0] - 25 / 2, left: bombAtUp[1] - 25 / 2, width: 25, height: 25 }}
               source={require('../assets/img/bomb.png')}
             />
           }
         </View>
       </TouchableWithoutFeedback>
 
-      <View style={{ height: infoH, width: "90%", marginLeft: "auto", marginRight: "auto", marginTop: "auto", marginBottom: "auto" }} >
-        <View style={{ marginTop: 4, marginBottom: 4, flexDirection: "row-reverse", justifyContent: "space-between" }}>
-          <Text style={styles.f14}>نوبت {turn}</Text>
-          <Text style={styles.f14}>تعداد بمب {bombs}</Text>
-        </View>
-        <View style={{ flexDirection: "row-reverse", justifyContent: "space-between" }}>
-          <TouchableOpacity style={styles.btn1} onPress={() => attack()}><Text style={styles.attackbtn}>آتش</Text></TouchableOpacity>
-          <TouchableOpacity style={styles.btn2} onPress={() => refreshGame()}><Text style={styles.restartbtn}>شروع مجدد</Text></TouchableOpacity>
-          <TouchableOpacity style={styles.btn3}><Text style={styles.backbtn}>بازگشت</Text></TouchableOpacity>
+      <View style={{ borderWidth: 1, marginRight: 1, marginLeft: 1, marginTop: 1, marginBottom: 1, borderRadius: 5 }}>
+        <View style={{ borderColor: "black", height: infoH, width: "95%", marginLeft: "auto", marginRight: "auto", marginTop: "auto", marginBottom: "auto" }} >
+          <View style={{ marginBottom: 4, flexDirection: "row-reverse", justifyContent: "space-between" }}>
+            <Text style={styles.f14}>نوبت {turn}</Text>
+            <Text style={styles.f14}>تعداد بمب {bombs}</Text>
+          </View>
+          <View style={{ flexDirection: "row-reverse", justifyContent: "space-between" }}>
+            <TouchableOpacity style={styles.btn1} onPress={() => attack()}><Text style={styles.attackbtn}>آتش</Text></TouchableOpacity>
+            <TouchableOpacity style={styles.btn2} onPress={() => refreshGame()}><Text style={styles.restartbtn}>شروع مجدد</Text></TouchableOpacity>
+            <TouchableOpacity style={styles.btn3}><Text style={styles.backbtn}>بازگشت</Text></TouchableOpacity>
+          </View>
         </View>
       </View>
 
       <TouchableWithoutFeedback onPress={(event) => handlePressDown(event)}>
-        <View style={{ height: landH, backgroundColor: '#ffdbdb' }}>
+        <View style={{ height: landH, backgroundColor: '#fff4cc' }}>
           {(x !== 0) &&
-            <Image style={{ top: y - 15, left: x - 15, width: 30, height: 30 }} source={require('../assets/img/bomb.png')} />
+            <Image style={{ top: y - 25 / 2, left: x - 25 / 2, width: 25, height: 25 }} source={require('../assets/img/bomb.png')} />
           }
         </View>
       </TouchableWithoutFeedback>
@@ -165,7 +167,6 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     borderColor: "red",
     borderWidth: 1.5,
-
     paddingTop: 7,
     paddingBottom: 7,
     paddingRight: 10,
