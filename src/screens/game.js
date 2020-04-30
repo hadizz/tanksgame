@@ -38,6 +38,8 @@ const Game = () => {
 
   const [isTwoPlayer, setIsTwoPlayer] = useState(false);
   const toggleSwitch = () => setIsTwoPlayer(!isTwoPlayer);
+  const [playerOneBombs, setPlayerOneBombs] = useState(10);
+  const [playerTwoBombs, setPlayerTwoBombs] = useState(10);
 
   function randomTargets() {
     let arr = [];
@@ -81,12 +83,17 @@ const Game = () => {
 
     setBombAtUp([y, x]);
 
-    setBombs(bombs - 1);
-
-    if (turn == 1) {
-      setTurn(2);
-    } else {
-      setTurn(1);
+    if (!isTwoPlayer) {
+      setBombs(bombs - 1);
+    }
+    else {
+      if (turn == 1) {
+        setTurn(2);
+        setPlayerOneBombs(playerOneBombs - 1);
+      } else {
+        setTurn(1);
+        setPlayerTwoBombs(playerTwoBombs - 1);
+      }
     }
   }
 
@@ -96,6 +103,8 @@ const Game = () => {
     setY(0);
     setTurn(1);
     setBombs(10);
+    setPlayerOneBombs(10);
+    setPlayerTwoBombs(10);
     setTargets(randomTargets());
   }
 
@@ -136,10 +145,11 @@ const Game = () => {
           {(isTwoPlayer ?
             <>
               <Text style={styles.f12}>نوبت {turn}</Text>
-              <Text style={styles.f12}>تعداد بمب {bombs}</Text>
+              <Text style={styles.f12}>تعداد بمب یک : {playerOneBombs}</Text>
+              <Text style={styles.f12}>تعداد بمب دو : {playerTwoBombs}</Text>
             </>
             :
-            <Text style={styles.f12}>تعداد بمب {bombs}</Text>
+            <Text style={styles.f12}>تعداد بمب های باقیمانده : {bombs}</Text>
           )}
         </View>
         <View style={{ flexDirection: "row-reverse", justifyContent: "space-between" }}>
