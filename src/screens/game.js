@@ -20,8 +20,8 @@ const Game = () => {
   let land = 5;
   let info = 1;
 
-  const [x, setX] = useState(0);
-  const [y, setY] = useState(0);
+  const [bombAtDownX, setBombAtDownX] = useState(0);
+  const [bombAtDownY, setBombAtDownY] = useState(0);
   const [bombAtUp, setBombAtUp] = useState([0, 0]);
 
   const [windowHeight, setWindowHeight] = useState(Dimensions.get('window').height - StatusBar.currentHeight);
@@ -63,21 +63,42 @@ const Game = () => {
   }, [targets, bombs, turn]);
 
   handlePressDown = (event) => {
-    console.log('x ', x);
-    console.log('y ', y);
 
-    setX(event.nativeEvent.locationX);
-    setY(event.nativeEvent.locationY);
+    setBombAtDownX(event.nativeEvent.locationX);
+    setBombAtDownY(event.nativeEvent.locationY);
+
+    console.log('onpress x ', bombAtDownX);
+    console.log('onpress y ', bombAtDownY);
+
 
   };
 
-  const attack = () => {
-    console.log('Called With x:', x, ' y:', y);
+  function findTheHittedTank() {
+    console.log("bomb is at ", bombAtUp);
+    for (let i = 0; i < targets.length; i++) {
+      console.log("x ", targets[i][0], "y ", targets[i][1]);
+      if (bombAtUp[0] > targets[i][0] - 30 && bombAtUp[0] < targets[i][0] + 30 && bombAtUp[1] > targets[i][1] - 30 && bombAtUp[1] < targets[i][1] + 30) {
+        console.log("\t", targets[i][0] - 30, "< x < ", targets[i][0] + 30, " ", targets[i][1] - 30, " < y < ", targets[i][1] + 30);
 
-    setBombAtUp([y, x]);
+        console.log("\t", "!!!!! hit !!!!!");
+        return i;
+      }
+    }
+    return -1;
+  }
+
+  const attack = () => {
+    console.log('Called With x:', bombAtDownX, ' y:', bombAtDownY);
+
+    setBombAtUp([bombAtDownX, landH - bombAtDownY]);
 
     if (!isTwoPlayer) {
       setBombs(bombs - 1);
+      var index = findTheHittedTank();
+      if (index !== -1) {
+        console.log("removedTank ", findTheHittedTank);
+        targets.splice(index, 1);
+      }
     }
     else {
       if (turn == 1) {
@@ -92,8 +113,8 @@ const Game = () => {
 
   const refreshGame = () => {
     setBombAtUp([0, 0]);
-    setX(0);
-    setY(0);
+    setBombAtDownX(0);
+    setBombAtDownY(0);
     setTurn(1);
     setBombs(10);
     setPlayerOneBombs(10);
@@ -102,7 +123,7 @@ const Game = () => {
   }
 
   return (
-    <View>
+    <View style={{ backgroundColor: "#fff" }}>
       <Modal
         animationType="fade"
         transparent={true}
@@ -118,6 +139,7 @@ const Game = () => {
           </View>
         </View>
       </Modal>
+
       <TouchableWithoutFeedback>
         <View style={{ height: landH, backgroundColor: '#fff4cc', }}>
           {targets && targets.map((target, index) => (
@@ -125,9 +147,10 @@ const Game = () => {
               source={require('../assets/img/tank.png')} />
           ))}
           <Image
-            style={{ top: landH - bombAtUp[0] - 25 / 2, left: bombAtUp[1] - 25 / 2, width: 25, height: 25 }}
+            style={{ top: bombAtUp[1] - 25 / 2, left: bombAtUp[0] - 25 / 2, width: 25, height: 25 }}
             source={require('../assets/img/bomb.png')}
           />
+
         </View>
       </TouchableWithoutFeedback>
 
@@ -151,10 +174,10 @@ const Game = () => {
         </View>
       </View>
 
-      <TouchableWithoutFeedback onPress={(event) => handlePressDown(event)}>
+      <TouchableWithoutFeedback onPressOut={(event) => handlePressDown(event)}>
         <View style={{ height: landH, backgroundColor: '#fff4cc' }}>
-          {(x !== 0) &&
-            <Image style={{ top: y - 25 / 2, left: x - 25 / 2, width: 25, height: 25 }} source={require('../assets/img/bomb.png')} />
+          {(bombAtDownX !== 0) &&
+            <Image style={{ top: bombAtDownY - 25 / 2, left: bombAtDownX - 25 / 2, width: 25, height: 25 }} source={require('../assets/img/bomb.png')} />
           }
         </View>
       </TouchableWithoutFeedback>
