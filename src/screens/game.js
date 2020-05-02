@@ -115,7 +115,7 @@ const Game = () => {
 
   function findTheHittedTank() {
     for (let i = 0; i < targets.length; i++) {
-      if (bombAtUp[0] > targets[i][0] - 30 && bombAtUp[0] < targets[i][0] + 30 && bombAtUp[1] > targets[i][1] - 30 && bombAtUp[1] < targets[i][1] + 30) {
+      if (bombAtUp[0] > targets[i][0] - 15 && bombAtUp[0] < targets[i][0] + 15 && bombAtUp[1] > targets[i][1] - 15 && bombAtUp[1] < targets[i][1] + 15) {
         console.log("\t", "!!!!! hit !!!!!");
         return i;
       }
