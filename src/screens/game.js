@@ -59,27 +59,17 @@ const Game = () => {
   }
 
   useEffect(() => {
-    // console.log('\n\n\t\t---------------------------\n\n\t\t\t\t\t [] called');
-    // console.log("window Height : ", windowHeight);
-    // console.log("window width : ", windowWidth);
-
-  }, []);
-
-  useEffect(() => {
     setBombAtUp([bombAtDownX, landH - bombAtDownY]);
-    // console.log("x,y at up set");
     setIsAttack(false);
   }, [bombAtDownX, bombAtDownY]);
 
   useEffect(() => {
     if (bombs === 0) {
-      // refreshGame();
       setEndGameModalVisible(true);
     }
     if (playerTwoBombs === 0) {
       handleWinner();
       setEndGameModalVisible(true);
-      // refreshGame();
     }
   }, [bombs, playerTwoBombs]);
 
@@ -91,7 +81,6 @@ const Game = () => {
       if (isTwoPlayer) {
         handleWinner();
       }
-      // refreshGame();
       setEndGameModalVisible(true);
     }
   }, [targets.length]);
@@ -120,19 +109,13 @@ const Game = () => {
     event.preventDefault();
     const event_x = event.nativeEvent.pageX;
     const event_y = event.nativeEvent.pageY - landH - infoH;
-    // console.log("event   x ", event_x, " y ", event_y);
     setBombAtDownX(event_x);
     setBombAtDownY(event_y);
-    // console.log('onpress x ', bombAtDownX, " y ", bombAtDownY);
   };
 
   function findTheHittedTank() {
-    // console.log("up bomb is at ", bombAtUp);
     for (let i = 0; i < targets.length; i++) {
-      // console.log("x ", targets[i][0], "y ", targets[i][1]);
       if (bombAtUp[0] > targets[i][0] - 30 && bombAtUp[0] < targets[i][0] + 30 && bombAtUp[1] > targets[i][1] - 30 && bombAtUp[1] < targets[i][1] + 30) {
-        // console.log("\t", targets[i][0] - 30, "< x < ", targets[i][0] + 30, " ", targets[i][1] - 30, " < y < ", targets[i][1] + 30);
-
         console.log("\t", "!!!!! hit !!!!!");
         return i;
       }
@@ -141,7 +124,6 @@ const Game = () => {
   }
 
   const attack = () => {
-    // console.log('Called with down bomb at  x:', bombAtDownX, ' y:', bombAtDownY);
     setIsAttack(true);
     var index = findTheHittedTank();
     if (!isTwoPlayer) {
@@ -317,8 +299,8 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     borderColor: "orange",
     borderWidth: 1.5,
-    paddingTop: 7, // 7
-    paddingBottom: 7, // 7
+    paddingTop: 7,
+    paddingBottom: 7,
     paddingRight: 10,
     paddingLeft: 10,
   },
