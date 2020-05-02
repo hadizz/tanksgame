@@ -32,11 +32,12 @@ const Game = () => {
   const [infoH, setInfoH] = useState(windowHeight / 11 * info);
 
   const [turn, setTurn] = useState(1);
-  const [bombs, setBombs] = useState(15);
+  const [bombs, setBombs] = useState(10);
 
   const [targets, setTargets] = useState(randomTargets());
 
   const [modalVisible, setModalVisible] = useState(false);
+  const [endGameModalVisible, setEndGameModalVisible] = useState(false);
 
   const [isTwoPlayer, setIsTwoPlayer] = useState(false);
   const toggleSwitch = () => setIsTwoPlayer(!isTwoPlayer);
@@ -45,6 +46,8 @@ const Game = () => {
 
   const [playerOneScore, setplayerOneScore] = useState(0);
   const [playerTwoScore, setplayerTwoScore] = useState(0);
+
+  const [winner, setWinner] = useState(0);
 
   function randomTargets() {
     let arr = [];
@@ -69,10 +72,13 @@ const Game = () => {
 
   useEffect(() => {
     if (bombs === 0) {
-      refreshGame();
+      // refreshGame();
+      setEndGameModalVisible(true);
     }
     if (playerTwoBombs === 0) {
-      refreshGame();
+      handleWinner();
+      setEndGameModalVisible(true);
+      // refreshGame();
     }
   }, [bombs, playerTwoBombs]);
 
@@ -81,10 +87,33 @@ const Game = () => {
 
     if (targets.length === 0) {
       console.log("\t\ttargets are zero");
-
-      refreshGame();
+      if (isTwoPlayer) {
+        handleWinner();
+      }
+      // refreshGame();
+      setEndGameModalVisible(true);
     }
   }, [targets.length]);
+
+  function handleWinner() {
+    if (playerOneScore > playerTwoScore) {
+      setWinner(1);
+    }
+    else if (playerOneScore < playerTwoScore) {
+      setWinner(2);
+    }
+    else {
+      setWinner(0);
+    }
+  };
+
+  function winnerMessage() {
+    switch (winner) {
+      case 0: return "بازی مساوی شد!";
+      case 1: return "بازیکن شماره یک برنده شد";
+      case 2: return "بازیکن شماره دو برنده شد";
+    }
+  }
 
   handlePressDown = (event) => {
     event.preventDefault();
@@ -149,6 +178,9 @@ const Game = () => {
     setBombs(10);
     setPlayerOneBombs(10);
     setPlayerTwoBombs(10);
+    setWinner(0);
+    setplayerOneScore(0);
+    setplayerTwoScore(0);
     setTargets(randomTargets());
   }
 
@@ -165,7 +197,32 @@ const Game = () => {
             <Text style={{ fontFamily: "IRANSansWeb(FaNum)_Medium", fontSize: 18, marginBottom: 20 }}>تنظیمات بازی</Text>
             <Text style={{ fontFamily: "IRANSansWeb(FaNum)_Medium", fontSize: 14, marginBottom: 10 }}>بازی {isTwoPlayer ? "دو" : "یک"} نفره</Text>
             <Switch style={{ marginBottom: 20 }} onValueChange={toggleSwitch} value={isTwoPlayer} />
-            <TouchableOpacity style={styles.btn5} onPress={() => setModalVisible(!modalVisible)}><Text style={styles.closemodalbtn}>بستن</Text></TouchableOpacity>
+            <TouchableOpacity style={styles.btn5} onPress={() => { setModalVisible(!modalVisible); refreshGame(); }}><Text style={styles.closemodalbtn}>بستن</Text></TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={endGameModalVisible}
+        transparent={true}
+      >
+        <View style={styles.modalcontainer}>
+          <View style={styles.modalinnercontainer}>
+            <Text style={{ fontFamily: "IRANSansWeb(FaNum)_Medium", fontSize: 18, marginBottom: 20 }}>بازی تموم شد!</Text>
+
+            {isTwoPlayer ?
+              <>
+                <Text style={{ fontFamily: "IRANSansWeb(FaNum)_Medium", fontSize: 14, marginBottom: 10 }}>{winnerMessage()}</Text>
+                <Text style={{ fontFamily: "IRANSansWeb(FaNum)_Medium", fontSize: 14, marginBottom: 10 }}>امیتاز بازیکن یک : {playerOneScore}</Text>
+                <Text style={{ fontFamily: "IRANSansWeb(FaNum)_Medium", fontSize: 14, marginBottom: 10 }}>امیتاز بازیکن دو : {playerTwoScore}</Text>
+              </>
+              :
+              <Text style={{ fontFamily: "IRANSansWeb(FaNum)_Medium", fontSize: 14, marginBottom: 10, direction: "rtl" }}>امتیازت تو این راند : {bombs - 10}</Text>
+            }
+
+            <TouchableOpacity style={[styles.btn5, { backgroundColor: "blue" }]} onPress={() => { setEndGameModalVisible(!endGameModalVisible); refreshGame(); }}><Text style={styles.closemodalbtn}>یه دور دیگه بازی کنیم</Text></TouchableOpacity>
           </View>
         </View>
       </Modal>
