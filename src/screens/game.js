@@ -33,6 +33,7 @@ const Game = () => {
 
   const [turn, setTurn] = useState(1);
   const [bombs, setBombs] = useState(10);
+  const [score, setScore] = useState(0);
 
   const [targets, setTargets] = useState(randomTargets());
 
@@ -147,6 +148,7 @@ const Game = () => {
       setBombs(bombs - 1);
       if (index !== -1) {
         console.log("before ", targets);
+        setScore(score + 1);
         targets.splice(index, 1);
         console.log("after ", targets);
       }
@@ -219,7 +221,7 @@ const Game = () => {
                 <Text style={{ fontFamily: "IRANSansWeb(FaNum)_Medium", fontSize: 14, marginBottom: 10 }}>امیتاز بازیکن دو : {playerTwoScore}</Text>
               </>
               :
-              <Text style={{ fontFamily: "IRANSansWeb(FaNum)_Medium", fontSize: 14, marginBottom: 10, direction: "rtl" }}>امتیازت تو این راند : {bombs - 10}</Text>
+              <Text style={{ fontFamily: "IRANSansWeb(FaNum)_Medium", fontSize: 14, marginBottom: 10, direction: "rtl" }}>امتیازت تو این راند : {score}</Text>
             }
 
             <TouchableOpacity style={[styles.btn5, { backgroundColor: "blue" }]} onPress={() => { setEndGameModalVisible(!endGameModalVisible); refreshGame(); }}><Text style={styles.closemodalbtn}>یه دور دیگه بازی کنیم</Text></TouchableOpacity>
