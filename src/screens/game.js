@@ -245,7 +245,6 @@ const Game = () => {
           <TouchableOpacity style={styles.btn1} onPress={() => attack()}><Text style={styles.attackbtn}>آتش</Text></TouchableOpacity>
           <TouchableOpacity style={styles.btn2} onPress={() => refreshGame()}><Text style={styles.restartbtn}>شروع مجدد</Text></TouchableOpacity>
           <TouchableOpacity style={styles.btn3} onPress={() => setModalVisible(true)}><Text style={styles.settingsbtn}>تنظیمات</Text></TouchableOpacity>
-          <TouchableOpacity style={styles.btn4}><Text style={styles.backbtn}>بازگشت</Text></TouchableOpacity>
         </View>
       </View>
 
