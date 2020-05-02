@@ -52,7 +52,7 @@ const Game = () => {
 
   function randomTargets() {
     let arr = [];
-    for (let i = 1; i <= 5; i++) {
+    for (let i = 1; i <= 8; i++) {
       arr.push([Math.floor(Math.random() * (windowWidth - 50)) + 20, Math.floor(Math.random() * (landH - 50)) + 20])
     }
     return arr;
