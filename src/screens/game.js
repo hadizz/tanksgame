@@ -200,11 +200,11 @@ const Game = () => {
             {isTwoPlayer ?
               <>
                 <Text style={{ fontFamily: "IRANSansWeb(FaNum)_Medium", fontSize: 14, marginBottom: 10 }}>{winnerMessage()}</Text>
-                <Text style={{ fontFamily: "IRANSansWeb(FaNum)_Medium", fontSize: 14, marginBottom: 10 }}>امیتاز بازیکن یک : {playerOneScore}</Text>
-                <Text style={{ fontFamily: "IRANSansWeb(FaNum)_Medium", fontSize: 14, marginBottom: 10 }}>امیتاز بازیکن دو : {playerTwoScore}</Text>
+                <Text style={{ fontFamily: "IRANSansWeb(FaNum)_Medium", fontSize: 14, marginBottom: 10 }}>امتیاز بازیکن یک : {playerOneScore}</Text>
+                <Text style={{ fontFamily: "IRANSansWeb(FaNum)_Medium", fontSize: 14, marginBottom: 20 }}>امتیاز بازیکن دو : {playerTwoScore}</Text>
               </>
               :
-              <Text style={{ fontFamily: "IRANSansWeb(FaNum)_Medium", fontSize: 14, marginBottom: 10, direction: "rtl" }}>امتیازت تو این راند : {score}</Text>
+              <Text style={{ fontFamily: "IRANSansWeb(FaNum)_Medium", fontSize: 14, marginBottom: 20, direction: "rtl" }}>امتیازت تو این راند : {score}</Text>
             }
 
             <TouchableOpacity style={[styles.btn5, { backgroundColor: "blue" }]} onPress={() => { setEndGameModalVisible(!endGameModalVisible); refreshGame(); }}><Text style={styles.closemodalbtn}>یه دور دیگه بازی کنیم</Text></TouchableOpacity>
