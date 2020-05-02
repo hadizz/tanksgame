@@ -24,6 +24,8 @@ const Game = () => {
   const [bombAtDownY, setBombAtDownY] = useState(0);
   const [bombAtUp, setBombAtUp] = useState([0, 0]);
 
+  const [isAttack, setIsAttack] = useState(false);
+
   const [windowHeight, setWindowHeight] = useState(Dimensions.get('window').height - StatusBar.currentHeight);
   const [windowWidth, setWindowWidth] = useState(Dimensions.get('window').width);
   const [landH, setLandH] = useState(windowHeight / 11 * land);
@@ -57,24 +59,24 @@ const Game = () => {
   }, []);
 
   useEffect(() => {
-    console.log('turn changed : ', turn);
-    console.log('bombs changed : ', bombs);
-    console.log('targets changed : ', targets);
-  }, [targets, bombs, turn]);
+    setBombAtUp([bombAtDownX, landH - bombAtDownY]);
+    console.log("x,y at up set");
+    setIsAttack(false);
+  }, [bombAtDownX, bombAtDownY]);
 
   handlePressDown = (event) => {
-
-    setBombAtDownX(event.nativeEvent.locationX);
-    setBombAtDownY(event.nativeEvent.locationY);
-
-    console.log('onpress x ', bombAtDownX);
-    console.log('onpress y ', bombAtDownY);
-
-
+    event.preventDefault();
+    console.log(event.nativeEvent);
+    const event_x = event.nativeEvent.pageX;
+    const event_y = event.nativeEvent.pageY - landH - infoH;
+    console.log("event   x ", event_x, " y ", event_y);
+    setBombAtDownX(event_x);
+    setBombAtDownY(event_y);
+    console.log('onpress x ', bombAtDownX, " y ", bombAtDownY);
   };
 
   function findTheHittedTank() {
-    console.log("bomb is at ", bombAtUp);
+    console.log("up bomb is at ", bombAtUp);
     for (let i = 0; i < targets.length; i++) {
       console.log("x ", targets[i][0], "y ", targets[i][1]);
       if (bombAtUp[0] > targets[i][0] - 30 && bombAtUp[0] < targets[i][0] + 30 && bombAtUp[1] > targets[i][1] - 30 && bombAtUp[1] < targets[i][1] + 30) {
@@ -88,15 +90,12 @@ const Game = () => {
   }
 
   const attack = () => {
-    console.log('Called With x:', bombAtDownX, ' y:', bombAtDownY);
-
-    setBombAtUp([bombAtDownX, landH - bombAtDownY]);
-
+    console.log('Called with down bomb at  x:', bombAtDownX, ' y:', bombAtDownY);
+    setIsAttack(true);
     if (!isTwoPlayer) {
       setBombs(bombs - 1);
       var index = findTheHittedTank();
       if (index !== -1) {
-        console.log("removedTank ", findTheHittedTank);
         targets.splice(index, 1);
       }
     }
@@ -146,10 +145,12 @@ const Game = () => {
             <Image key={index} style={{ position: "absolute", top: target[1] - 25 / 2, left: target[0] - 25 / 2, width: 25, height: 25 }}
               source={require('../assets/img/tank.png')} />
           ))}
-          <Image
-            style={{ top: bombAtUp[1] - 25 / 2, left: bombAtUp[0] - 25 / 2, width: 25, height: 25 }}
-            source={require('../assets/img/bomb.png')}
-          />
+          {isAttack &&
+            <Image
+              style={{ top: bombAtUp[1] - 25 / 2, left: bombAtUp[0] - 25 / 2, width: 25, height: 25 }}
+              source={require('../assets/img/bomb.png')}
+            />
+          }
 
         </View>
       </TouchableWithoutFeedback>
@@ -174,7 +175,7 @@ const Game = () => {
         </View>
       </View>
 
-      <TouchableWithoutFeedback onPressOut={(event) => handlePressDown(event)}>
+      <TouchableWithoutFeedback onPress={(event) => handlePressDown(event)}>
         <View style={{ height: landH, backgroundColor: '#fff4cc' }}>
           {(bombAtDownX !== 0) &&
             <Image style={{ top: bombAtDownY - 25 / 2, left: bombAtDownX - 25 / 2, width: 25, height: 25 }} source={require('../assets/img/bomb.png')} />
