@@ -43,6 +43,9 @@ const Game = () => {
   const [playerOneBombs, setPlayerOneBombs] = useState(10);
   const [playerTwoBombs, setPlayerTwoBombs] = useState(10);
 
+  const [playerOneScore, setplayerOneScore] = useState(0);
+  const [playerTwoScore, setplayerTwoScore] = useState(0);
+
   function randomTargets() {
     let arr = [];
     for (let i = 1; i <= 5; i++) {
@@ -68,7 +71,10 @@ const Game = () => {
     if (bombs === 0) {
       refreshGame();
     }
-  }, [bombs]);
+    if (playerTwoBombs === 0) {
+      refreshGame();
+    }
+  }, [bombs, playerTwoBombs]);
 
   useEffect(() => {
     console.log("\t\ttargets changed");
@@ -107,9 +113,9 @@ const Game = () => {
   const attack = () => {
     // console.log('Called with down bomb at  x:', bombAtDownX, ' y:', bombAtDownY);
     setIsAttack(true);
+    var index = findTheHittedTank();
     if (!isTwoPlayer) {
       setBombs(bombs - 1);
-      var index = findTheHittedTank();
       if (index !== -1) {
         console.log("before ", targets);
         targets.splice(index, 1);
@@ -120,9 +126,17 @@ const Game = () => {
       if (turn == 1) {
         setTurn(2);
         setPlayerOneBombs(playerOneBombs - 1);
+        if (index !== -1) {
+          targets.splice(index, 1);
+          setplayerOneScore(playerOneScore + 1);
+        }
       } else {
         setTurn(1);
         setPlayerTwoBombs(playerTwoBombs - 1);
+        if (index !== -1) {
+          targets.splice(index, 1);
+          setplayerTwoScore(playerTwoScore + 1);
+        }
       }
     }
   }
@@ -177,8 +191,10 @@ const Game = () => {
           {(isTwoPlayer ?
             <>
               <Text style={styles.f12}>نوبت {turn}</Text>
-              <Text style={styles.f12}>تعداد بمب یک : {playerOneBombs}</Text>
-              <Text style={styles.f12}>تعداد بمب دو : {playerTwoBombs}</Text>
+              <Text style={styles.f12}>💣 یک : {playerOneBombs}</Text>
+              <Text style={styles.f12}>🚩 یک : {playerOneScore}</Text>
+              <Text style={styles.f12}>💣 دو : {playerTwoBombs}</Text>
+              <Text style={styles.f12}>🚩 دو : {playerTwoScore}</Text>
             </>
             :
             <Text style={styles.f12}>تعداد بمب های باقیمانده : {bombs}</Text>
