@@ -165,6 +165,7 @@ const Game = () => {
     setWinner(0);
     setplayerOneScore(0);
     setplayerTwoScore(0);
+    setScore(0);
     setTargets(randomTargets());
   }
 
@@ -238,7 +239,10 @@ const Game = () => {
               <Text style={styles.f12}>🚩 دو : {playerTwoScore}</Text>
             </>
             :
-            <Text style={styles.f12}>تعداد بمب های باقیمانده : {bombs}</Text>
+            <>
+              <Text style={styles.f12}>💣 بمب های باقیمانده : {bombs}</Text>
+              <Text style={styles.f12}>🚩 امیتاز : {score}</Text>
+            </>
           )}
         </View>
         <View style={{ flexDirection: "row-reverse", justifyContent: "space-between" }}>
