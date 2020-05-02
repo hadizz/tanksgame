@@ -99,7 +99,7 @@ const Game = () => {
 
   function winnerMessage() {
     switch (winner) {
-      case 0: return "بازی مساوی شد!";
+      case 0: return "بازی مساوی شد :)";
       case 1: return "بازیکن شماره یک برنده شد";
       case 2: return "بازیکن شماره دو برنده شد";
     }
@@ -207,7 +207,7 @@ const Game = () => {
               <Text style={{ fontFamily: "IRANSansWeb(FaNum)_Medium", fontSize: 14, marginBottom: 20, direction: "rtl" }}>امتیازت تو این راند : {score}</Text>
             }
 
-            <TouchableOpacity style={[styles.btn5, { backgroundColor: "blue" }]} onPress={() => { setEndGameModalVisible(!endGameModalVisible); refreshGame(); }}><Text style={styles.closemodalbtn}>یه دور دیگه بازی کنیم</Text></TouchableOpacity>
+            <TouchableOpacity style={[styles.btn5, { backgroundColor: "#058aff" }]} onPress={() => { setEndGameModalVisible(!endGameModalVisible); refreshGame(); }}><Text style={styles.closemodalbtn}>یه دور دیگه بازی کنیم</Text></TouchableOpacity>
           </View>
         </View>
       </Modal>
@@ -241,7 +241,7 @@ const Game = () => {
             :
             <>
               <Text style={styles.f12}>💣 بمب های باقیمانده : {bombs}</Text>
-              <Text style={styles.f12}>🚩 امیتاز : {score}</Text>
+              <Text style={styles.f12}>🚩 امتیاز : {score}</Text>
             </>
           )}
         </View>
@@ -339,8 +339,8 @@ const styles = StyleSheet.create({
     backgroundColor: "red",
     paddingTop: 7,
     paddingBottom: 7,
-    paddingRight: 10,
-    paddingLeft: 10,
+    paddingRight: 20,
+    paddingLeft: 20,
   },
   attackbtn: {
     fontFamily: "IRANSansWeb(FaNum)_Bold",
