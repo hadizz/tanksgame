@@ -1,6 +1,8 @@
 android/app/build/intermediates/merged_assets/debug/out/fonts
 android/app/src/main/assets/fonts
 src/assets/fonts
+android/gradle.properties
+android/build.gradle
 
 # OSX
 #
